@@ -101,7 +101,12 @@ int main() {
         adj[y-1][x-1] = z;
       }
       dp[a][0] = 0;
-      cout << solve(a, 0) << endl;
+      double ans = solve(a, 0);
+      if(ans == inf) {
+        cout << "Impossible" << endl;
+      } else {
+        cout << ans << endl;
+      }
     }
     return 0;
 }
