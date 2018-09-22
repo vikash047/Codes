@@ -52,61 +52,40 @@ typedef vector<int> vi;
 #define eps 1e-7
 #define maxN 5005
 
-int n, m, p, a, b;
-const int inf = 1 << 30 - 1;
-double dp[31][1 << 8];
-int adj[31][31];
-int tickets[10];
-
-double solve(int node, int mask) {
-  if(node == b) {
-    return 0.0;
-  }
-  if(dp[node][mask] != -1) {
-    return dp[node][mask];
-  }
-  dp[node][mask] = inf;
-  fri(i, m) {
-    if(adj[node][i] == -1) continue;
-    fri(j, n) {
-      if(mask & (1 << j) != 0) continue;
-      int newMask = mask | (1 << j);
-      dp[node][mask] = min(dp[node][mask],
-        adj[node][i]/ static_cast<double>(tickets[j]) + solve(i, newMask));
-    }
-  }
-  return dp[node][mask];
-}
+int sum[2][503][503];
+int dp[503][503];
+int n, m;
 
 int main() {
+    int k;
     while(1) {
-      cin >> n >> m >> p >> a >> b;
-      if(n == m&&m == p&&p == a&&a == b&&b == 0) break;
-      fri(i, 31){
-        fri(j, 31) adj[i][j] = -1;
-      }
-      fri(i, 31) {
-        fri(j, 1 << 8) {
-          dp[i][j] = -1;
+      cin >> n >> m;
+      if(n+m == 0) break;
+      fri(i, n) {
+        fri(j, m) {
+          cin >> k;
+          if(j > 0) sum[1][i][j] += k + sum[1][i][j-1];
+          else sum[1][i][j] = k;
         }
       }
       fri(i, n) {
-        cin >> tickets[i];
+        fri(j, m) {
+          cin >> k;
+          if(i > 0) sum[0][i][j] += k + sum[0][i-1][j];
+          else sum[0][i][j] = k;
+        }
       }
-      a--;
-      b--;
-      fri(i, p) {
-        int x, y, z;
-        cin >> x >> y >> z;
-        adj[x-1][y-1] = z;
-        adj[y-1][x-1] = z;
+      fri(i, n) {
+        fri(j, m) {
+          dp[i][j] = 0;
+          int temp1 = sum[1][i][j];
+          int temp2 = sum[0][i][j];
+          if(i > 0) temp2 += dp[i-1][j];
+          if(j > 0) temp1 += dp[i][j-1];
+          temp1 = max(temp1, temp2);
+          dp[i][j] = temp1;
+        }
       }
-      double ans = solve(a, 0);
-      if(ans == inf) {
-        cout << "Impossible" << endl;
-      } else {
-        cout << ans << endl;
-      }
+      cout << dp[n-1][m-1] << endl;
     }
-    return 0;
 }
