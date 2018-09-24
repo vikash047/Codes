@@ -77,7 +77,6 @@ int main() {
       }
       fri(i, n) {
         fri(j, m) {
-          dp[i][j] = 0;
           int temp1 = sum[1][i][j];
           int temp2 = sum[0][i][j];
           if(i > 0) temp2 += dp[i-1][j];
