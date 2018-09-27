@@ -33,3 +33,38 @@ typedef vector<int> vi;
 #define INF 1000111222
 #define eps 1e-7
 #define maxN 5005
+
+
+int n, width, height, dp[601][601], w[601], h[601];
+
+int solve() {
+    frei(i, 0, width) dp[0][i] = 0;
+    frei(i, 0, height) dp[i][0] = 0;
+    dp[1][1] = 1;
+    frei(i, 1, height) {
+        frei(j, 1, width) {
+            if(dp[i][j] < 0 )dp[i][j] = i*j;
+            frei(k, 1, n) {
+                if(w[k] <= j && h[k] <= i) {
+                    dp[i][j] = min(dp[i][j], dp[h[k]][j - w[k]] + dp[i - h[k]][j]);
+                    dp[i][j] = min(dp[i][j], dp[i - h[k]][w[k]] + dp[i][j - w[k]]);
+                }
+            }
+        }
+    }
+    return dp[height][width];
+}
+
+int main() {
+    int t;
+    cin >> t;
+    while(t--) {
+        cin >> width >> height >> n;
+        memset(dp, -1, sizeof(dp));
+        frei(i, 1, n) {
+            cin >> w[i] >> h[i];
+            dp[h[i]][w[i]] = 0;
+        }
+        cout << solve() << endl;
+    }
+}
