@@ -33,3 +33,44 @@ typedef vector<int> vi;
 #define INF 1000111222
 #define eps 1e-7
 #define maxN 5005
+
+const int INFI = 100000000;
+int E, F, N;
+vector<pii> WV;
+
+uint64 solve() {
+    int cw = F - E;
+    uint64 dp[cw+1];
+    dp[0] = 0;
+    sort(WV.begin(), WV.end());
+    frei(i, 1, cw) dp[i] = INFI;
+    //cout << " Hello " << endl;
+    frei(i, 1, cw) {
+        frei(j, 0, N) {
+            if(i >= WV[j].ff) {
+                if(dp[i-WV[j].ff] != INFI)
+                    dp[i] = min(dp[i], dp[i-WV[j].ff] + WV[j].ss);
+            }
+        }
+    }
+    return dp[cw];
+}
+int main() {
+    int t;
+    cin >> t;
+    while(t--) {
+        cin >> E >> F >> N;
+        int p, w;
+        WV.clear();
+        frei(i, 1, N) {
+            cin >> p >> w;
+            WV.pb(mp(w, p));
+        }
+        int ans = solve();
+        if(ans != INFI) {
+            cout << "The minimum amount of money in the piggy-bank is " << ans  << "."<< endl;
+        } else {
+            cout << "This is impossible." << endl;
+        }
+    }
+}
