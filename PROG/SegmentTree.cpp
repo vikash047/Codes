@@ -90,12 +90,64 @@ int query(int t[], int p, int n) {
 // lazy propagation tree query is max between range
 // we have extra array which could take space of N to store delayed operations
 
+void apply(int t[], int n, int d[], int p, int value) {
+    t[p] += value;
+    if(p < n) d[p] += value;
+}
+
+// Apply delayed operation and propagate this change up to root of p
 void buildTree(int t[], int n, int p, int d[]) {
     while(p > 1) {
         p >>= 1;
         t[p] = max(t[p << 1], t[p << 1 | 1]) + d[p];
     }
 }
+
+// Push all operation applied to root tree to down to child nodes
+
+void push(int t[], int n, int d[], int p, int h) {
+    for(int s = h; s > 0; s--) {
+        int i = p >> s;
+        if(d[i] != 0) {
+            apply(t, n, d, i << 1, d[i]);
+            apply(t, n, d, i << 1 | 1, d[i]);
+            d[i] = 0;
+        }
+    }
+}
+
+// Operation inc between range of l to r
+void inc(int t[], int n, int l, int r, int value, int d[]) {
+    l += n;
+    r += n;
+    int l0 = l, r0 = r;
+    for(; l < r; l >>= 1, r >>= 1) {
+        if(l & 1) apply(t, n, d, l++, value);
+        if(r & 1) apply(t, n, d, --r, value);
+    }
+    buildTree(t, n, l0, d);
+    buildTree(t, n, r0-1, d);
+}
+
+// query between a range l to r
+
+int query(int t[], int n, int d[], int l, int r, int h) {
+    int res = 2e-9;
+    push(t, n, d, l, h);
+    push(t, n, d, r-1, h);
+    int l0 = l, r0 = r;
+    for(l += n, r += n; l < r; l >>= 1, r >>= 1) {
+        if(l & 1) res = max(t[l++], res);
+        if(r & 1) res = max(t[--r], res);
+    }
+    return res;
+}
+
+// but we can optimaze above push inc buid and query function we can only apply operatin when needed at left and right boundries only
+
+// All of above are complex implementation of the algorithm no we can do simplify all these functions
+
+
 
 int main() {
 
