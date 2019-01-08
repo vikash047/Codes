@@ -40,6 +40,7 @@ vector<pr<int, pr<int, int> > > adj[MAXN];
 int sumA, sumB;
 bool visit[MAXN];
 priority_queue<pr<pr<double, int>, pr<int, int> > > pq;
+
 int gcd(int a, int b){
     if(b == 0) return a;
     return gcd(b, a%b);
@@ -97,6 +98,7 @@ int main(int argc, char const *argv[])
         adj[v].pb(mp(u, mp(a, b)));
     }
     double mid, lo = 0.0, hi = 100000000.0;
+    
     for(int i =1 ;i<=65 ; i++) {
         mid = lo + (hi-lo)/2.0 ;
         if(mst(mid)) lo = mid ;

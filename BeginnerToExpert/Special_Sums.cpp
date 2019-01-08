@@ -41,12 +41,12 @@ int main(int argc, char const *argv[])
 {
     /* code */
     int n;
-    //cin >> n;
+    cin >> n;
     int64 a[n+1], b[n+1], pref[n+1], mxel, diff[n+1], diffE[n+1];
-    /*frei(i, 1, n) cin >> a[i];
+    frei(i, 1, n) cin >> a[i];
     frei(i, 1, n) cin >> b[i];
-    mxel = a[1];*/
-    /*frei(i, 2, n) {
+    mxel = a[1];
+    frei(i, 2, n) {
         mxel = max(mxel, a[i]);
     } 
     int64 p, q;
@@ -74,14 +74,14 @@ int main(int argc, char const *argv[])
     }else {
         if(q > mxel) ans = q;
     }
-    cout << ans << endl;*/
-    cout << sizeof(int) << endl;
+    cout << ans << endl;
+    /*cout << sizeof(int) << endl;
     cout << sizeof(long) << endl;
     cout << sizeof(long long) << endl;
     cout << sizeof(float) << endl;
     cout << sizeof(double) << endl;
     cout << sizeof(uint64) << endl;
     cout << sizeof(char) << endl;
-    cout << sizeof(bool) << endl;
+    cout << sizeof(bool) << endl;*/
     return 0;
 }
