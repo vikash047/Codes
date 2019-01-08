@@ -35,8 +35,8 @@ typedef vector<int> vi;
 #define maxN 5005
 int n, k;
 
-map<int, int> solutionOfSubtree(int node, int p, int d, vector<int> adj[]) {
-    map<int, int> m, m_subtree, temp;
+map<int, int64> solutionOfSubtree(int node, int p, int d, vector<int> adj[]) {
+    map<int, int64> m, m_subtree, temp;
     if(d == 0) {
         m[0] = 1;
         return m;

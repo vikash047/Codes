@@ -17,6 +17,7 @@ using namespace std;
 #define mp make_pair
 #define ff first
 #define ss second
+#define pr pair
 
 #define BIT(n) (1<<(n))
 #define AND(a,b) ((a) & (b))
@@ -33,3 +34,12 @@ typedef vector<int> vi;
 #define INF 1000111222
 #define eps 1e-7
 #define maxN 5005
+
+
+
+int main(int argc, char const *argv[])
+{
+    /* code */
+   
+    return 0;
+}
