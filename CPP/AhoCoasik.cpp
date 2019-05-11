@@ -35,13 +35,51 @@ typedef vector<int> vi;
 #define eps 1e-7
 #define maxN 5005
 
+const int MAX = 1000;
+const int MAXC = 256;
+int g[MAX][MAXC];
+int f[MAX];
+int out[MAX];
+
+int buildMachingMachine(vector<string> words) {
+    memset(g, -1, sizeof(g));
+    menset(f, -1, sizeof(f));
+    memset(out, 0, sizeof(out));
+    int state = 1;
+    for(int i = 0; i < words.size(); i++) {
+        string w = words[i];
+        int currState = 0;
+        for(int j = 0; j < w.size(); j++) {
+            if(g[currState][w[j]] == -1) 
+                g[currState][w[j]] = state++;
+            currState = g[currState][w[j]];    
+        }
+        out[currState] |= (1 << i);
+    }
+    for(int i = 0; i < MAXC; i++) {
+        if(g[0][i] == -1) g[0][i] = 0;
+    }
+    queue<int> pq;
+    for(int i = 0; i < MAXC; i++) {
+        if(g[0][i] != 0) {
+            pq.push(g[0][i]);
+            f[g[0][i]] = 0;
+        }
+    }
+    while(!pq.empty()) {
+        
+    }
+}
+
 
 int main(int argc, char const *argv[])
 {
     /* code */
-    int n;
-    cin >> n;
-
-   
+    int k;
+    cin >> k;
+    string text;
+    cin >> text;
+    vector<string> words(k, 0);
+    for(int i = 0; i < k; i++) cin >> words[i];
     return 0;
 }

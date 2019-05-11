@@ -35,13 +35,55 @@ typedef vector<int> vi;
 #define eps 1e-7
 #define maxN 5005
 
+const int maxn = 100002;
 
+int64 tree[maxn];
+const int mod = 1000000000+7;
+
+void update(int x, int val) {
+    while(x < maxn) {
+        tree[x] = (tree[x]%mod + val%mod)%mod;
+        x += (x & -x);
+    }
+}
+
+int query(int x) {
+    int sum = 0;
+    while(x > 0) {
+        sum = (sum%mod + tree[x]%mod)%mod;
+        x -= (x & -x);
+    }
+    return sum;
+}
 int main(int argc, char const *argv[])
 {
     /* code */
-    int n;
-    cin >> n;
-
-   
+    int t;
+    cin >> t;
+    for(int cs = 1; cs <= t; cs++) {
+        memset(tree, 0, sizeof(tree));
+        int n;
+        cin >> n;
+        int a[n];
+        int b[n];
+        for(int i = 0; i < n; i++) {
+            cin >> a[i];
+            b[i] = a[i];
+        }
+        sort(b, b + n);
+        map<int, int> unid;
+        int cnt = 2;
+        unid[b[0]] = 1;
+        for(int i = 1; i < n; i++) {
+            if(b[i] != b[i-1]) {
+                unid[b[i]] = cnt;
+                cnt++;
+            }
+        }
+        for(int i = 0; i < n; i++) {
+            update(unid[a[i]], query(unid[a[i]] - 1) + 1);
+        }
+        cout << "Case " << cs << ": " << query(n)%mod << endl;
+    }
     return 0;
 }
