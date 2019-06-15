@@ -40,6 +40,6 @@ typedef vector<int> vi;
 int main(int argc, char const *argv[])
 {
     /* code */
-   
+    
     return 0;
 }

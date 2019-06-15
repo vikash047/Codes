@@ -67,6 +67,8 @@ int buildMachingMachine(vector<string> words) {
         }
     }
     while(!pq.empty()) {
+        int st = pq.front();
+        pq.pop();
         
     }
 }

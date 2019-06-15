@@ -95,11 +95,11 @@ struct lowest_lca{
                 }
             }
         }
-        for(int i = 0; i < N; i++) {
+        /*for(int i = 0; i < N; i++) {
             for(int j = 0; 1 << j < N; j++) {
                 cout << P[i][j] << "  " << MA[i][j] << "  " << MI[i][j] << endl;
             }
-        }
+        }*/
     }
     pii query(int p, int q) {
         int tmp, lg;
