@@ -1,2 +1,9 @@
-.vscode/*
-.*
+*.vscode/*
+*.idea/*
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+*.so	
