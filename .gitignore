@@ -24,3 +24,4 @@ JAVA/.settings/*
 *.zip
 .vs/
 .vscode/
+JAVA/.idea/
