@@ -1,12 +1,11 @@
-.vscode/
-.idea/
-JAVA/.idea/
+.vscode/*
+JAVA/.idea/*
+JAVA/.settings/*
 *.com
 *.class
 *.dll
 *.exe
 *.o
-*:x
 *.so
 *.so	
 
@@ -22,4 +21,3 @@ JAVA/.idea/
 *.rar
 *.tar
 *.zip
-.idea/
