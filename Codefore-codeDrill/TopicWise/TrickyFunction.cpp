@@ -35,11 +35,85 @@ typedef vector<int> vi;
 #define eps 1e-7
 #define maxN 5005
 
+struct Point {
+    int x;
+    int y;
+};
 
+bool CompareY(Point a, Point b) {
+    return a.y < b.y;
+}
 
+int Dist(Point a, Point b) {
+    return (a.x - b.x)*(a.x - b.x) + (a.y - b.y)*(a.y - b.y);
+}
+
+int PairWiseDistance(vector<Point> inputs, int l, int r) {
+    int min = INT_MAX;
+    for(int i = l; i <= r; i++) {
+        for(int j = i + 1; j <= r; j++) {
+            int d = Dist(inputs[i], inputs[j]);
+            if(d < min) {
+                min = d;
+            }
+        }
+    }
+    return min;
+}
+
+int FindClosestInBox(vector<Point> inputs, int d) {
+    sort(inputs.begin(), inputs.end(), CompareY);
+    int min = d;
+    for(int i = 0; i < inputs.size(); i++) {
+        for(int j =  i + 1; j < inputs.size(); j++) {
+            if(abs(inputs[i].y - inputs[j].y) < d) {
+                int dist = Dist(inputs[i], inputs[j]);
+                if(dist < min) {
+                    min = dist;
+                }
+            }
+        }
+    }
+    return min;
+}
+
+int ClosestPoint(vector<Point> inputs, int l, int r) {
+    if(r - l < 4) {
+        return PairWiseDistance(inputs, l, r);
+    }
+    int mid = (r - l)/2;
+    int dl;
+    int dr;
+    Point midpoint = inputs[mid];
+    dl = ClosestPoint(inputs, l, mid);
+    dr = ClosestPoint(inputs, mid + 1, r);
+    int d = min(dl, dr);
+    vector<Point> box;
+    int k = 0;
+    for(int i = l; i <= r; i++) {
+        if(abs(inputs[i].x - midpoint.x) < d) {
+            box[k++] = inputs[i];
+        }
+    }
+    return min(d, FindClosestInBox(box, d));
+}
 int main(int argc, char const *argv[])
 {
     /* code */
+    int n;
+    cin >> n;
+    int a[n];
+    int sum[n];
+    vector<Point> points;
+    Point p;
+    for(int i = 0; i < n; i++) {
+        cin >> a[i];
+        sum[i] = i == 0 ? a[i] : sum[i-1] + a[i];
+        p.x = i;
+        p.y = sum[i];
+        points.push_back(p);
+    }
+    cout << ClosestPoint(points, 0, points.size() - 1) << endl;
    
     return 0;
 }
