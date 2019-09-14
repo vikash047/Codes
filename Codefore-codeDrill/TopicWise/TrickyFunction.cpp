@@ -44,6 +44,10 @@ bool CompareY(Point a, Point b) {
     return a.y < b.y;
 }
 
+bool CompareX(Point a, Point b) {
+    return a.x < b.x;
+}
+
 int Dist(Point a, Point b) {
     return (a.x - b.x)*(a.x - b.x) + (a.y - b.y)*(a.y - b.y);
 }
@@ -78,13 +82,16 @@ int FindClosestInBox(vector<Point> inputs, int d) {
 }
 
 int ClosestPoint(vector<Point> inputs, int l, int r) {
+    if(l == r) {
+        return INT_MAX;
+    }
     if(r - l < 4) {
         return PairWiseDistance(inputs, l, r);
     }
-    int mid = (r - l)/2;
+    int mid = (r + l)/2;
     int dl;
     int dr;
-    Point midpoint = inputs[mid];
+    Point midpoint = inputs[ l + (r - l)/2];
     dl = ClosestPoint(inputs, l, mid);
     dr = ClosestPoint(inputs, mid + 1, r);
     int d = min(dl, dr);
@@ -113,6 +120,7 @@ int main(int argc, char const *argv[])
         p.y = sum[i];
         points.push_back(p);
     }
+    sort(points.begin(), points.end(), CompareX);
     cout << ClosestPoint(points, 0, points.size() - 1) << endl;
    
     return 0;
