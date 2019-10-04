@@ -35,12 +35,35 @@ typedef vector<int> vi;
 #define eps 1e-7
 #define maxN 5005
 
+int dp[21][3];
 
 int main(int argc, char const *argv[])
 {
     /* code */
-    int n;
-    cin >> n;
-   
+    int t;
+    cin >> t;
+    for(int ca = 1; ca <= t; ca++) {
+        int n;
+        cin >> n;
+        int a[n][3];
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < 3; j++) {
+                cin >> a[i][j];
+            }
+        }
+       // cout << endl << endl;
+        dp[0][0] = a[0][0];
+        dp[0][1] = a[0][1];
+        dp[0][2] = a[0][2];
+        for(int i = 1; i < n; i++) {
+            for(int j = 0; j < 3; j++) {
+                dp[i][j] =  a[i][j] + min(dp[i-1][(j+1)%3], dp[i-1][(j+2)%3]);
+               // cout << dp[i][j] << " ";
+            }
+            //cout << endl;
+        }
+        int ans = min(dp[n-1][0], min(dp[n-1][1], dp[n-1][2]));
+        cout << "Case " << ca << ": " << ans << endl;
+    }
     return 0;
 }

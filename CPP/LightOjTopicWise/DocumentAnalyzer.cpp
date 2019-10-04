@@ -36,11 +36,10 @@ typedef vector<int> vi;
 #define maxN 5005
 
 
+
 int main(int argc, char const *argv[])
 {
     /* code */
-    int n;
-    cin >> n;
-   
+    
     return 0;
 }

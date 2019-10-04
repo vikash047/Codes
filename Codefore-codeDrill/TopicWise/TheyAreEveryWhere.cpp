@@ -36,11 +36,39 @@ typedef vector<int> vi;
 #define maxN 5005
 
 
+
 int main(int argc, char const *argv[])
 {
     /* code */
     int n;
     cin >> n;
-   
+    string s;
+    cin >> s;
+    set<char> pokeManCatrds;
+    for(int i = 0; i < s.size(); i++) {
+        pokeManCatrds.insert(s[i]);
+    }
+    int cnt = pokeManCatrds.size();
+    int st = 1, end = 1;
+    int ans = INT_MAX;
+    int unct = 0;
+    int lastIndex[256];
+    memset(lastIndex, 0, sizeof(lastIndex));
+    //cout << cnt << endl;
+    for(int i = 1; i <= s.size(); i++) {
+        if(!lastIndex[s[i-1]]) {
+            unct++;
+        }
+        lastIndex[s[i-1]]++;
+        while(st < i && lastIndex[s[st-1]] > 1) {
+            lastIndex[s[st-1]]--;
+            st++;
+        }
+        if(unct == cnt) {
+            ans = min(ans, i - st + 1);
+        }
+    }
+    ans = ans != INT_MAX ? ans : 0;
+    cout << ans << endl;
     return 0;
 }

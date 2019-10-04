@@ -35,12 +35,56 @@ typedef vector<int> vi;
 #define eps 1e-7
 #define maxN 5005
 
+vector<int> lps(string pat) {
+    int n = pat.size();
+    int i = 1;
+    int len = 0;
+    vector<int> ps(n, 0);
+    while(i < n) {
+        if(pat[i] == pat[len]) {
+            ps[i++] = ++len;
+        } else {
+            if(len != 0) {
+                len = ps[len -1];
+            } else {
+                ps[i] = 0;
+                i++;
+            }
+        }
+    }
+    return ps;
+}
+
+void kmp(string text, string pat) {
+    int n = text.size();
+    int m = pat.size();
+    if(m > n) return;
+    int i = 0, j = 0;
+    vector<int> ps = lps(pat);
+    while(i < n) {
+        if(pat[j] == text[i]) {
+            i++;
+            j++;
+        } 
+        if(j == m) {
+            cout << "Pattern found at " << i - j << endl;
+            j = ps[j - 1];
+        } else if(i < n && pat[j] != text[i]) {
+            if(j != 0) {
+                j = ps[j-1];
+            } else {
+                i = i + 1;
+            }
+        }
+    }
+}
+
+
 
 int main(int argc, char const *argv[])
 {
     /* code */
-    int n;
-    cin >> n;
-   
+    string text, pat;
+    cin >> text >> pat;
     return 0;
 }

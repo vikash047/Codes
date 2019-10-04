@@ -35,12 +35,44 @@ typedef vector<int> vi;
 #define eps 1e-7
 #define maxN 5005
 
+const int N = 1e5+5;
+bool visit[N];
+int64 dis, notfr;
+int n;
+vector<int> g[N];
+
+void dfs(int u) {
+    visit[u] = true;
+    dis++;
+    for(auto it : g[u]) {
+        if(!visit[it]) {
+            dfs(it);
+        }
+    }
+    notfr += (n - dis);
+}
 
 int main(int argc, char const *argv[])
 {
     /* code */
-    int n;
-    cin >> n;
-   
+    int t;
+    cin >> t;
+    for(int tst = 1; tst <= t; tst++) {
+        for(int i = 0; i < N; i++) {
+            g[i].clear();
+            visit[i] = false;
+        }
+        dis = notfr = 0;
+        cin >> n;
+        int x, y;
+        for(int i = 0; i < n -1; i++) {
+            cin >> x >> y;
+            g[x].push_back(y);
+            //g[y].push_back(x);
+        }
+        dfs(1);
+        cout << "Case " << tst << ": ";
+        cout << n-1 << " " << notfr << endl;
+    }
     return 0;
 }
