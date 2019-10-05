@@ -17,6 +17,7 @@ using namespace std;
 #define mp make_pair
 #define ff first
 #define ss second
+#define pr pair
 
 #define BIT(n) (1<<(n))
 #define AND(a,b) ((a) & (b))
@@ -35,36 +36,9 @@ typedef vector<int> vi;
 #define maxN 5005
 
 
+
 int main(int argc, char const *argv[])
 {
     /* code */
-     int n, h;
-    cin >> n >> h;
-    int a[n];
-    fri(i, n) cin >> a[i];
-    int c;
-    int curr = 0;
-    bool box = false;
-    while(true) {
-        cin >> c;
-        if(c == 0) break;
-        if(c == 1) {
-            curr = curr > 0 ? curr - 1 : curr;
-        } else if(c == 2) {
-            curr = curr <  n - 1 ? curr + 1 : curr;
-        } else if(c == 3) {
-            if(a[curr] > 0 && !box) {
-                box = true;
-                a[curr]--;
-            }
-        } else if(c == 4) {
-            if(a[curr] < h && box) {
-                a[curr]++;
-                box = false;
-            }
-        }
-    }
-    fri(i, n) cout << a[i] << " ";
-    cout << endl;
     return 0;
 }
