@@ -35,10 +35,61 @@ typedef vector<int> vi;
 #define eps 1e-7
 #define maxN 5005
 
+const int N = 1e4+5;
+const int M = 1e5+5;
+vector<int> g[N];
+stack<int> st;
+int visit[N], n, m;
 
+void dfs(int u) {
+    if(visit[u]) return;
+    visit[u] = 1;
+    for(auto it : g[u]) {
+        dfs(it);
+    }
+    st.push(u);
+}
+
+void dfs2(int u) {
+    if(visit[u]) return;
+    visit[u] = 1;
+    for(auto it : g[u]) {
+        dfs2(it);
+    }
+}
 
 int main(int argc, char const *argv[])
 {
     /* code */
+    int t;
+    cin >> t;
+    for(int test = 1; test <= t; test++) {
+        for(int i = 0; i < N; i++) {
+            g[i].clear();
+            visit[i] = 0;
+        }
+        stack<int> temp;
+        swap(st, temp);
+        cin >> n >> m;
+        int u, v;
+        for(int i = 1; i <= m; i++) {
+            cin >> u >> v;
+            g[u].push_back(v);
+        }
+        for(int i = 1; i <= n; i++) {
+            if(visit[i] == 0) dfs(i);
+        }
+        int cnt = 0;
+        for(int i = 0; i < N; i++) visit[i] = 0;
+        while(!st.empty()) {
+            int node = st.top();
+            st.pop();
+            if(visit[node] == 0) {
+                dfs2(node);
+                cnt++;
+            }
+        }
+        cout << "Case " << test << ": " << cnt << endl;
+    }
     return 0;
 }
