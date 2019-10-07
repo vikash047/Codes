@@ -7,7 +7,6 @@ using namespace std;
 #define fri(i,n) for (int i = 0, _n = (n); i < _n; i++)
 #define frd(i,n) for (int i = (n) - 1; i >= 0; i--)
 #define foreach(it, ar) for ( typeof(ar.begin()) it = ar.begin(); it != ar.end(); it++ )
-#define fill(ar, val) memset(ar, val, sizeof(ar))
 
 #define uint64 unsigned long long
 #define int64 long long
