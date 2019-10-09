@@ -34,6 +34,8 @@ typedef vector<int> vi;
 #define eps 1e-7
 #define maxN 5005
 
+
+// ford fulkerson and ddijkastra min cost max flow
 struct Edge {
     int from;
     int to;

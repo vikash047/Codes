@@ -46,6 +46,8 @@ struct Edge{
 };
 
 const int64 inf = 1e18;
+
+// Dinic max flow algorithm applied here
 class Dinic{
     int n, src, sink;
     vector<vector<int>> g;
