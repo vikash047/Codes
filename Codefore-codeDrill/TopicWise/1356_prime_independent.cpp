@@ -51,6 +51,8 @@ void computePrimeNumbers() {
 
 const int inf = 1e9;
 int n, in[N], mx, fnd[N], dist[N], matchV[N], matchU[N];
+// if undirected graph you should use only one match
+int match[N];
 vector<int> adj[N];
 
 void clear() {
@@ -59,6 +61,7 @@ void clear() {
         fnd[i] = -1;
         adj[i].clear();
         matchV[i] = matchU[i] = 0;
+        match[i] = 0;
         dist[i] = inf;
     }
 }
@@ -66,7 +69,7 @@ void clear() {
 bool bfs() {
     queue<int> pq;
     for(int i = 1; i <= n; i++) {
-        if(matchU[i] == 0) {
+        if(match[i] == 0) {
             //cout << " Push " << i << endl;
             pq.push(i);
             dist[i] = 0;
@@ -80,13 +83,11 @@ bool bfs() {
     while(!pq.empty()) {
         int node = pq.front();
         pq.pop();
-        if(node == 0) continue;
         if(dist[node] < dist[0]) {
-            //cout << " Come in " << node << endl;
             for(auto it : adj[node]) {
-                if(dist[matchU[it]] == inf) {
-                    dist[matchU[it]] = dist[node] + 1;
-                    pq.push(matchU[it]);
+                if(dist[match[it]] == inf) {
+                    dist[match[it]] = dist[node] + 1;
+                    pq.push(match[it]);
                 }
             }
         }
@@ -100,15 +101,11 @@ bool visit[N];
 bool dfs(int u) {
     if(u == 0) return true;
     for(auto it : adj[u]) {
-        cout << "Node " << it << endl;
-        //if(visit[it]) continue;
-        if(dist[matchU[it]] = dist[u] + 1) {
-            if(dfs(matchU[it])) {
-                matchU[it] = u;
+       // cout << "Node " << it << endl;
+        if(dist[match[it]] = dist[u]+1 && dfs(match[it])) {
+                matchV[it] = u;
                 matchU[u] = it;
                 return true;
-            }
-            
         }
     }
     dist[u] = inf;
@@ -118,11 +115,10 @@ bool dfs(int u) {
 int hopKorp() {
     int matching = 0;
     while(bfs()) {
-       // cout << "Hello " << endl;
-       memset(visit, false, sizeof(visit));
+        cout << "Hello " << endl;
         for(int i = 1; i <= n; i++) {
-            if(matchU[i] == 0 && dfs(i)) {
-                //cout << "Node matched with " << matchU[i] << " node " << i << endl;
+            if(match[i] == 0 && dfs(i)) {
+               // cout << "Node matched with " << matchU[i] << " node " << i << endl;
                 ++matching;
             }
         }
@@ -149,6 +145,8 @@ int main(int argc, char const *argv[])
                 int y = prime[j]*in[i];
                 if(y > mx) break;
                 if(fnd[y] != -1) {
+                    // Undirected graph so need to careful in this scenario.
+                    //cout << "Edge " << i << "  " << fnd[y] << endl;
                     adj[i].push_back(fnd[y]);
                     adj[fnd[y]].push_back(i);
                 }
