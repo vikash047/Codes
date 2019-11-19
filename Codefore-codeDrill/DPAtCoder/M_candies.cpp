@@ -50,6 +50,16 @@ typedef vector<int> vi;
 
 const int mod = 1e9 + 7;
 
+void add_slef(int &a, int b, int mod = 0) {
+    a += b;
+    if(mod > 0 && a >= mod) a -= mod;
+}
+
+void sub_slef(int &a, int b, int mod = 0) {
+    a -= b;
+    if(mod > 0 && a < 0) a += mod;
+}
+
 int main(int argc, char const *argv[])
 {
     /* code */
@@ -81,34 +91,24 @@ int main(int argc, char const *argv[])
     vector<int> ps(k + 1);
     for(int i = 0; i < n; i++) {
         cin >> up_to;
-        for(int used = k; k >= 0; k--) {
-            int L = 1;
-            int R = used + min(up_to, k - used);
+        vector<int> fake(k+1);
+        for(int used = k; used >= 0; used--) {
             int val = dp[used];
+            int L = used + 1;
+            int R = used + min(up_to, k - used);
             if(L <= R) {
-                ps[L] += val;
-                if(ps[L] >= mod) {
-                    ps[L] -= mod;
-                }
-                if(R+1 <= k)
-                    ps[R+1] -= val;
-                    if(ps[R+1] <= 0) {
-                        ps[R+1] += mod;
-                    }
+                add_slef(fake[L], val, mod);
+                if(R + 1 <= k) sub_slef(fake[R+1], val, mod);
             }
         }
-    }
-    int p_s = 0;
-    for(int i = 1; i <= k; i++) {
-        p_s += ps[i];
-        if(p_s >= mod) {
-            p_s -= mod;
-        } 
-        dp[i] += p_s;
-        if(dp[i] >= mod) {
-            dp[i] -= mod;
+        int pSum = 0;
+        for(int used = 0; used <= k; used++) {
+            add_slef(pSum, fake[used], mod);
+            add_slef(dp[used], pSum, mod);
         }
     }
+    
+    //for(int i = 0; i <= k; i++) cout << dp[i] << " ";
     cout << dp[k] << endl;
     return 0;
 }
