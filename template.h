@@ -34,7 +34,29 @@ typedef vector<int> vi;
 #define eps 1e-7
 #define maxN 5005
 
+void add_slef(int &a, int b, int mod = 0) {
+    a += b;
+    if(mod > 0 && a >= mod) a -= mod;
+}
 
+void sub_slef(int &a, int b, int mod = 0) {
+    a -= b;
+    if(mod > 0 && a < 0) a += mod;
+}
+
+vector<string> split(string s, string del) {
+        vector<string> ans;
+        if(s.size() == 0) {
+            return ans;
+        }
+        size_t pos = 0;
+        while((pos = s.find(del)) != string::npos) {
+            string str = s.substr(0, pos);
+            ans.push_back(str);
+            s.erase(0, pos + del.size());
+        }
+        return ans;
+}
 
 int main(int argc, char const *argv[])
 {
