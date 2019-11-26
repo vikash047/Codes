@@ -44,6 +44,10 @@ void sub_slef(int &a, int b, int mod = 0) {
     if(mod > 0 && a < 0) a += mod;
 }
 
+int mul(int a, int b, int mod = 0) {
+    return (int64)a*b%mod;
+}
+
 vector<string> split(string s, string del) {
         vector<string> ans;
         if(s.size() == 0) {
@@ -59,11 +63,28 @@ vector<string> split(string s, string del) {
 }
 
 const int mod = 1e9 + 7;
+int n;
+struct M {
+    vector<vector<int>> t;
+    M() {
+        t.resize(n, vector<int>(n));
+    }
+    M operator*(const M &b) const {
+        M c = M();
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                for(int k = 0; k < n; k++) {
+                    add_slef(c.t[i][j], mul(t[i][k], b.t[k][j], mod), mod);
+                }
+            }
+        }
+        return c;
+    }
+};
 
 int main(int argc, char const *argv[])
 {
     /* code */
-    int n;
     int64 k;
     cin >> n >> k;
     vector<vector<int>>can(n, vector<int>(n));
@@ -72,7 +93,26 @@ int main(int argc, char const *argv[])
             cin >> can[i][j];
         }
     }
-    vector<int> dp(n,1);
+    M answer = M();
+    M m = M();
+    m.t = can;
+    for(int i = 0; i < n; i++) answer.t[i][i] = 1;
+    //cout << "Hello " << endl;
+    while(k) {
+        if(k%2) {
+            answer = answer*m;
+        }
+        m = m*m;
+        k = k/2;
+    }
+    int total = 0;
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < n; j++) {
+            add_slef(total, answer.t[i][j], mod);
+        }
+    }
+    cout << total << endl;
+    /* vector<int> dp(n,1);
     for(int64 step = 0; step < k; step++) {
         vector<int> new_dp(n);
         for(int i = 0; i < n; i++) {
@@ -86,6 +126,6 @@ int main(int argc, char const *argv[])
     }
     int ans = 0;
     for(int i = 0; i < n; i++) ans += dp[i];
-    cout << ans << endl;
+    cout << ans << endl;*/
     return 0;
 }
