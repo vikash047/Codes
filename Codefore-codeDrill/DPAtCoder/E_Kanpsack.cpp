@@ -45,7 +45,7 @@ int main(int argc, char const *argv[])
     cin >> n >> w;
     int item[n+1][2];
     for(int i = 1; i <= n; i++) {
-        cin >> item[i][0] >> item[i][1];
+        cin >> item[i][1] >> item[i][0];
     }
     int sum_value = 0;
     for(int i = 1; i <= n; i++) {

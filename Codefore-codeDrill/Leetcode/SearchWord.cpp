@@ -1,3 +1,7 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
 struct Trie{
     unordered_map<char, struct Trie*> next = {};
     priority_queue<string> suggest = {};

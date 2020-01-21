@@ -64,40 +64,51 @@ vector<string> split(string s, string del) {
         return ans;
 }
 
+int dp[200][200][200];
+int per[6][3] = {{0, 1, 2}, {0, 2, 1}, {1, 0, 2}, {1, 2, 0}, {2, 0, 1}, {2, 1, 0}};
 
-int n, mod;
-const int nax = 1e5 + 5;
-vector<int> adj[nax];
-pii down[nax], up[nax];
-
-int add(int a, int b) {
-    return (a + b)%mod;
-}
-
-void dfs(int u, int p) {
-    down[u] = {1, 1};
-    for(int next : adj[u]) {
-        if(next != p) {
-            dfs(next, u);
-            // if parent is black
-            down[u].ff = mul(down[u].ff, add(down[next].ff, down[next].ss), mod);
-            // if parent is white then child should white
-            down[u].ss = mul(down[u].ss, down[next].ss, mod);
+int solve(int i, int a, int b, int n, vector<vector<int>>& in) {
+    if(i > n) return 0;
+    if(dp[i][a][b] != -1) return dp[i][a][b];
+    int cc = 0;
+    int f[2] = {a, b};
+    for(int ii = 0; ii < 6; ii++) {
+        for(int mask = 0; mask < 7; mask++) {
+            int cnt = 0, c1 = 0;
+            int f2[2] = {a, b};
+            for(int j = 0; j < 2; j++) {
+                if((mask & (1 << j)) > 0) {
+                    if(in[per[ii][j]][i] >= f[j]) {
+                        f2[j] = in[per[ii][j]][i];
+                        cnt++;
+                    }
+                }
+            }
+            cc = max(cc, cnt + solve(i + 1, f2[0], f2[1], n, in));
         }
     }
+    dp[i][a][b] = cc;
+    return cc;
 }
-
 
 int main(int argc, char const *argv[])
 {
     /* code */
-    cin >> n >> mod;
-    
-    int x, y;
-    for(int i = 0; i < n - 1; i++) {
-        cin >> x >> y;
-        adj[x].push_back(y);
-        adj[y].push_back(x);
+    int n;
+    cin >> n;
+    vector<vector<int>> in(3, vector<int>(n+1, 0));
+    for(int i = 0; i < 3; i++) {
+        for(int j = 1; j <= n; j++) {
+            cin >> in[i][j];
+        }
     }
+    for(int i = 0; i < 200; i++) {
+        for(int j = 0; j < 200; j++) {
+            for(int k = 0; k < 200; j++) {
+                dp[i][j][k] = -1;
+            }
+        }
+    }
+    int ans = solve(1, 0, 0, n, in);
     return 0;
 }

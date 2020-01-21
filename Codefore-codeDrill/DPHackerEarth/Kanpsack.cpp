@@ -64,40 +64,32 @@ vector<string> split(string s, string del) {
         return ans;
 }
 
-
-int n, mod;
-const int nax = 1e5 + 5;
-vector<int> adj[nax];
-pii down[nax], up[nax];
-
-int add(int a, int b) {
-    return (a + b)%mod;
-}
-
-void dfs(int u, int p) {
-    down[u] = {1, 1};
-    for(int next : adj[u]) {
-        if(next != p) {
-            dfs(next, u);
-            // if parent is black
-            down[u].ff = mul(down[u].ff, add(down[next].ff, down[next].ss), mod);
-            // if parent is white then child should white
-            down[u].ss = mul(down[u].ss, down[next].ss, mod);
-        }
-    }
-}
-
-
 int main(int argc, char const *argv[])
 {
     /* code */
-    cin >> n >> mod;
-    
-    int x, y;
-    for(int i = 0; i < n - 1; i++) {
-        cin >> x >> y;
-        adj[x].push_back(y);
-        adj[y].push_back(x);
+    //return 0;
+    int n, c;
+    cin >> n >> c;
+    vector<int> v(n, 0);
+    vector<int> w(n, 0);
+    for(int i = 0; i < n; i++) cin >> v[i];
+    for(int i = 0; i < n; i++) cin >> w[i];
+    vector<int> dp(c+1, 0);
+    for(int i = 0; i < n; i++) {
+        vector<int> new_dp(c+1, 0);
+        for(int j = 0; j <= c; j++) {
+            if(w[i] <= j) {
+                new_dp[j] = max(dp[j - w[i]] + v[i], dp[j]);
+            } else {
+                new_dp[j] = dp[j];
+            }
+        }
+        dp = new_dp;
     }
+    int res = 0;
+    for(int i = 0; i <= c; i++) {
+        res = max(res, dp[i]);
+    }
+    cout << res << endl;
     return 0;
 }

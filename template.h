@@ -43,6 +43,12 @@ void sub_slef(int &a, int b, int mod = 0) {
     a -= b;
     if(mod > 0 && a < 0) a += mod;
 }
+int mul(int a, int b, int mod = 0) {
+    if(mod > 0) {
+        return (int)((int64)a*b%mod);
+    }
+    return a*b;
+}
 
 vector<string> split(string s, string del) {
         vector<string> ans;
