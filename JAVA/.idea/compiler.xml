@@ -9,5 +9,8 @@
         <module name="competative-programming" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="competative-programming" target="8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
